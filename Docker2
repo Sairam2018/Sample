@@ -1,9 +1,1 @@
 docker pull nanoserver/iis
-
-docker run --name nanoiis -d -it -p 80:80 nanoserver/iis
-
-docker images
-
-docker ps -a -f status=running
-
-docker inspect -f "{{ .NetworkSettings.Networks.nat.IPAddress }}" nanoiis
