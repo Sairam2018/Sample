@@ -1,16 +1,11 @@
-# Sample Dockerfile
+FROM microsoft/iis
 
-# Indicates that the windowsservercore image will be used as the base image.
-FROM microsoft/windowsservercore
+RUN powershell -NoProfile -Command Remove-Item -Recurse C:\inetpub\wwwroot\*
 
-# Metadata indicating an image maintainer.
-LABEL maintainer="jshelton@contoso.com"
+WORKDIR /inetpub/wwwroot
 
-# Uses dism.exe to install the IIS role.
-RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
+COPY content/ .
+You can then build and run the Docker image:
 
-# Creates an HTML file and adds content to this file.
-RUN echo "Hello World - Dockerfile" > c:\inetpub\wwwroot\index.html
-
-# Sets a command or process that will run each time a container is run from the new image.
-CMD [ "cmd" ]
+$ docker build -t iis-site .
+$ docker run -d -p 8000:80 --name my-running-site iis-site
